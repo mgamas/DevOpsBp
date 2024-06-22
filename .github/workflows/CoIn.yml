@@ -18,6 +18,8 @@ jobs:
         node-version: '18.15.0'
     - name: Install dependencies
       run: npm install
+    - name: Install Babel
+      run: npm install --save-dev @babel/core @babel/preset-env babel-jest
     - name: Run tests
       run: npm test
     - name: Static Code Analysis
@@ -29,17 +31,32 @@ jobs:
         npm install -g nyc
         nyc npm test
     - name: Build Docker image
-      run: docker build . -t myapp
+      run: docker build . -t devopsbp
     - name: Push Docker image
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-        docker tag myapp $DOCKER_USERNAME/myapp
-        docker push $DOCKER_USERNAME/myapp
-    - name: Deploy to Kubernetes
+        docker tag devopsbp $DOCKER_USERNAME/devopsbp
+        docker push $DOCKER_USERNAME/devopsbp
+    - name: Deploy ConfigMap to Kubernetes
       env:
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
-      run: |
-        kubectl apply -f deployment.yaml
+      run: kubectl apply -f configmap.yaml
+    - name: Deploy Secret to Kubernetes
+      env:
+        KUBECONFIG: ${{ secrets.KUBECONFIG }}
+      run: kubectl apply -f secret.yaml
+    - name: Deploy Deployment to Kubernetes
+      env:
+        KUBECONFIG: ${{ secrets.KUBECONFIG }}
+      run: kubectl apply -f deployment.yaml
+    - name: Deploy Service to Kubernetes
+      env:
+        KUBECONFIG: ${{ secrets.KUBECONFIG }}
+      run: kubectl apply -f service.yaml
+    - name: Deploy Ingress to Kubernetes
+      env:
+        KUBECONFIG: ${{ secrets.KUBECONFIG }}
+      run: kubectl apply -f ingress.yaml
