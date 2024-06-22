@@ -18,6 +18,8 @@ jobs:
         node-version: '18.15.0'
     - name: Install dependencies
       run: npm install
+    - name: Install Babel
+      run: npm install --save-dev @babel/core @babel/preset-env babel-jest
     - name: Run tests
       run: npm test
     - name: Static Code Analysis
@@ -36,8 +38,8 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-        docker tag myapp $DOCKER_USERNAME/myapp
-        docker push $DOCKER_USERNAME/myapp
+        docker tag devopsbp $DOCKER_USERNAME/devopsbp
+        docker push $DOCKER_USERNAME/devopsbp
     - name: Deploy ConfigMap to Kubernetes
       env:
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
