@@ -1,5 +1,5 @@
 import js from '@eslint/js';
-import globals from './node_modules/globals/globals.json' assert { type: 'json' };
+//import globals from './node_modules/globals/globals.json' assert { type: 'json' };
 
 export default [
   {
