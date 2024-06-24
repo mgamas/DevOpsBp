@@ -42,33 +42,32 @@ jobs:
       run: |
         npm install -g nyc
         nyc npm test
-    - name: Build Docker image
-      run: docker build . -t devopsbp
+        - name: Build Docker image
+        run: docker build . -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/devopsbp:latest
     - name: Push Docker image
       env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
       run: |
-        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-        docker tag devopsbp $DOCKER_USERNAME/devopsbp
-        docker push $DOCKER_USERNAME/devopsbp
+        echo $GCP_SERVICE_ACCOUNT_KEY | docker login -u _json_key --password-stdin https://gcr.io
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/devopsbp:latest
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v1
+      with:
+          ersion: 'latest'
+    - name: Authenticate with GKE
+      uses: google-github-actions/auth@v0.4.0
+      with:
+        credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+    - name: Get GKE credentials
+      run: gcloud container clusters get-credentials my-cluster --zone us-central1-a --project ${{ secrets.GCP_PROJECT_ID }}
     - name: Deploy ConfigMap to Kubernetes
-      env:
-        KUBECONFIG: ${{ secrets.KUBECONFIG }}
       run: kubectl apply -f configmap.yaml
     - name: Deploy Secret to Kubernetes
-      env:
-        KUBECONFIG: ${{ secrets.KUBECONFIG }}
       run: kubectl apply -f secret.yaml
     - name: Deploy Deployment to Kubernetes
-      env:
-        KUBECONFIG: ${{ secrets.KUBECONFIG }}
       run: kubectl apply -f deployment.yaml
     - name: Deploy Service to Kubernetes
-      env:
-        KUBECONFIG: ${{ secrets.KUBECONFIG }}
       run: kubectl apply -f service.yaml
     - name: Deploy Ingress to Kubernetes
-      env:
-        KUBECONFIG: ${{ secrets.KUBECONFIG }}
       run: kubectl apply -f ingress.yaml

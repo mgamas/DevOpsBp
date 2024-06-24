@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: devopsbp
-        image: gamas909/devopsbp:latest
+        image: gcr.io/tonal-depth-427415-s0/devopsbp:latest
         ports:
         - containerPort: 8000
         envFrom:
