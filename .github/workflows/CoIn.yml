@@ -59,8 +59,17 @@ jobs:
       uses: google-github-actions/auth@v0.4.0
       with:
         credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        
+    - name: Install gke-gcloud-auth-plugin
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-cloud-sdk-gke-gcloud-auth-plugin
+  
     - name: Get GKE credentials
-      run: gcloud container clusters get-credentials my-cluster --zone us-east1-b --project ${{ secrets.GCP_PROJECT_ID }}
+      run: |
+        export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+        gcloud container clusters get-credentials my-cluster --zone us-east1-b --project ${{ secrets.GCP_PROJECT_ID }}
+  
     - name: Deploy ConfigMap to Kubernetes
       run: kubectl apply -f configmap.yaml
     - name: Deploy Secret to Kubernetes
