@@ -15,17 +15,21 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20.13.1'
+        node-version: '18.15.0'
     - name: Install dependencies
       run: npm install
-    - name: Install Babel
-      run: npm install --save-dev @babel/core @babel/preset-env babel-jest
-    - name: Fix Jest Permissions
-      run: chmod +x ./node_modules/.bin/jest
-    - name: Install sqlite3
-      run: npm install sqlite3
+    - name: Install sqlite3 globally
+      run: npm install -g sqlite3 --save
     - name: Verify sqlite3 installation
-      run: npm list sqlite3
+      run: npm list -g sqlite3
+    - name: Ensure correct permissions for project directory
+      run: chmod -R 755 .
+    - name: Start application
+      run: |
+        npm start &
+        sleep 5
+    - name: Stop application
+      run: kill $(lsof -t -i:8000)
     - name: Run tests
       run: npm test
     - name: Static Code Analysis
