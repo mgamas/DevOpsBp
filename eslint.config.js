@@ -1,5 +1,5 @@
 import js from '@eslint/js';
-import globals from '@eslint/globals';
+import globals from './node_modules/globals/globals.json';
 
 export default [
   {
@@ -10,9 +10,6 @@ export default [
         ...globals.browser,
         ...globals.es2021,
       },
-    },
-    plugins: {
-      '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
     },
     rules: {
       ...js.configs.recommended.rules,
