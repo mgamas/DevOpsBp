@@ -23,6 +23,10 @@ jobs:
     - name: Fix Jest Permissions
       run: chmod +x ./node_modules/.bin/jest
     - name: Run tests
+      env:
+        DATABASE_USER: user
+        DATABASE_PASSWORD: password
+        DATABASE_NAME: test-db
       run: npm test
     - name: Static Code Analysis
       run: |
