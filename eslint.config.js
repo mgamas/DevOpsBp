@@ -1,5 +1,5 @@
 import js from '@eslint/js';
-import globals from './node_modules/globals/globals.json';
+import globals from './node_modules/globals/globals.json' assert { type: 'json' };
 
 export default [
   {
@@ -14,7 +14,6 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       'no-unused-vars': 'error',
-      '@typescript-eslint/no-unused-vars': 'error',
     },
   },
 ];
