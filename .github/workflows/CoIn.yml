@@ -24,6 +24,8 @@ jobs:
       run: chmod +x ./node_modules/.bin/jest
     - name: Install sqlite3
       run: npm install sqlite3
+    - name: Verify sqlite3 installation
+      run: npm list sqlite3
     - name: Run tests
       run: npm test
     - name: Static Code Analysis
