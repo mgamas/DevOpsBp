@@ -22,11 +22,9 @@ jobs:
       run: npm install --save-dev @babel/core @babel/preset-env babel-jest
     - name: Fix Jest Permissions
       run: chmod +x ./node_modules/.bin/jest
+    - name: Install sqlite3
+      run: npm install sqlite3
     - name: Run tests
-      env:
-        DATABASE_USER: user
-        DATABASE_PASSWORD: password
-        DATABASE_NAME: test-db
       run: npm test
     - name: Static Code Analysis
       run: |
