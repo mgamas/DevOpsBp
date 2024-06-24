@@ -1,5 +1,5 @@
 import js from '@eslint/js';
-import globals from 'globals';
+import globals from '@eslint/globals';
 
 export default [
   {
