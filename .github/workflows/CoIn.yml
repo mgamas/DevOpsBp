@@ -37,7 +37,7 @@ jobs:
     - name: Static Code Analysis
       run: |
         npm install -g eslint
-        eslint -c eslint.config.cjs .
+        eslint -c eslint.config.js .
     - name: Code Coverage
       run: |
         npm install -g nyc
