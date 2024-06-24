@@ -5,13 +5,18 @@ import express from 'express'
 const app = express()
 const PORT = 8000
 
-sequelize.sync({ force: true }).then(() => console.log('db is ready'))
-
 app.use(express.json())
 app.use('/api/users', usersRouter)
 
-const server = app.listen(PORT, () => {
-    console.log('Server running on port PORT', PORT)
-})
+const startServer = async () => {
+    await sequelize.sync({ force: true })
+    console.log('db is ready')
+    const server = app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`)
+    })
+    return server
+  }
 
-export { app, server }
+const serverPromise = startServer()  
+
+export { app, serverPromise }

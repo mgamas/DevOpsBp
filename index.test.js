@@ -1,4 +1,4 @@
-import { app, server } from '.'
+import { app, serverPromise  } from '.'
 import request from 'supertest'
 import User from './users/model.js'
 import sequelize from './shared/database/database'
@@ -7,6 +7,7 @@ import { Sequelize } from 'sequelize'
 describe('User', () => {
     let data
     let mockedSequelize
+    let server
 
     beforeEach(async () => {
         data = {
@@ -21,14 +22,16 @@ describe('User', () => {
             logging: false,
         })
         await mockedSequelize.sync({ force: true })
+        server = await serverPromise
     })
 
     afterEach(async () => {
         jest.clearAllMocks()
-        await mockedSequelize.close()
+        //await mockedSequelize.close()
     })
 
     afterAll(async () => {
+        await mockedSequelize.close()
         server.close()
     })
 
