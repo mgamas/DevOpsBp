@@ -26,6 +26,7 @@
     "@babel/core": "^7.24.7",
     "@babel/preset-env": "^7.21.4",
     "@types/express": "4.17.17",
+    "@eslint/globals": "^1.0.0",
     "babel-jest": "^29.5.0",
     "dotenv": "16.0.3",
     "jest": "29.5.0",
