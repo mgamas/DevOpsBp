@@ -20,6 +20,8 @@ jobs:
       run: npm install
     - name: Install sqlite3 globally
       run: npm install -g sqlite3 --save
+    - name: Rebuild npm packages
+      run: npm rebuild
     - name: Verify sqlite3 installation
       run: npm list -g sqlite3
     - name: Ensure correct permissions for project directory
