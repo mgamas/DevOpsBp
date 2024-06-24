@@ -16,12 +16,9 @@ describe('User', () => {
         jest.spyOn(console, 'log').mockImplementation(jest.fn())
         jest.spyOn(sequelize, 'log').mockImplementation(jest.fn())
         mockedSequelize = new Sequelize({
-            database: 'test-db',
             dialect: 'sqlite',
-            username: 'root',
-            password: '',
-            validateOnly: true,
-            models: [__dirname + '/models'],
+            storage: ':memory:',
+            logging: false,
         })
         await mockedSequelize.sync({ force: true })
     })
