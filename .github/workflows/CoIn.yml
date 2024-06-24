@@ -54,13 +54,13 @@ jobs:
     - name: Set up kubectl
       uses: azure/setup-kubectl@v1
       with:
-          ersion: 'latest'
+          version: 'latest'
     - name: Authenticate with GKE
       uses: google-github-actions/auth@v0.4.0
       with:
         credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
     - name: Get GKE credentials
-      run: gcloud container clusters get-credentials my-cluster --zone us-central1-a --project ${{ secrets.GCP_PROJECT_ID }}
+      run: gcloud container clusters get-credentials my-cluster --zone us-east1-b --project ${{ secrets.GCP_PROJECT_ID }}
     - name: Deploy ConfigMap to Kubernetes
       run: kubectl apply -f configmap.yaml
     - name: Deploy Secret to Kubernetes
